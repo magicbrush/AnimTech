@@ -22,7 +22,7 @@ public class AT噪声透明度 : MonoBehaviour {
 		float 透明度 = 当前颜色.a;
 		透明度 = Mathf.PerlinNoise (
 			_噪声速率.x * 时刻, _噪声速率.y * 时刻);
-		透明度 = MathUtil.map (
+		透明度 = AT_MathUtil.map (
 			透明度, 
 			0.0f,1.0f,
 			_基准值 - _最大偏移, 

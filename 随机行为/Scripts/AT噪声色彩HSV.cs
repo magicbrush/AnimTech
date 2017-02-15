@@ -32,7 +32,7 @@ public class AT噪声色彩HSV : MonoBehaviour {
 			float X = _噪声变化速率 [i] * 时刻;
 			float Y = X * _噪声变化的斜率[i];
 			float value = Mathf.PerlinNoise (X, Y + _噪声变化的Y起点 [i]);
-			HSV [i] = MathUtil.map (value, 0, 1.0f, _HSV范围.min [i], _HSV范围.max [i]);
+			HSV [i] = AT_MathUtil.map (value, 0, 1.0f, _HSV范围.min [i], _HSV范围.max [i]);
 		}
 		HSV [0] = Mathf.Repeat (HSV [0], 1.0f);
 		HSV [1] = Mathf.Clamp01 (HSV [1]);

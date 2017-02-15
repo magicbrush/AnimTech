@@ -32,7 +32,7 @@ public class AT噪声尺寸XYZ : MonoBehaviour {
 		for (int i = 0; i < 3; i++) {
 			Vector2 噪声位置 = _噪声起点[i] + 当前时刻_秒 * _噪声速率 [i];
 			float 尺度改变 = Mathf.PerlinNoise(噪声位置.x, 噪声位置.y);
-			float 尺度改变系数 = MathUtil.map (
+			float 尺度改变系数 = AT_MathUtil.map (
 				尺度改变, 0, 1.0f, _最小尺度 [i], _最大尺度 [i]);
 			随机化尺度 [i] *= 尺度改变系数;
 		}

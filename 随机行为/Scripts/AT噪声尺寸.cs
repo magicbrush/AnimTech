@@ -21,7 +21,7 @@ public class AT噪声尺寸 : MonoBehaviour {
         float 随机尺度 =
             Mathf.PerlinNoise(
                 当前时刻_秒 * _随机变化速率, _噪声参数y);
-        随机尺度 = MathUtil.map(随机尺度, 0.0f, 1.0f, _最小尺度, _最大尺度);
+		随机尺度 = AT_MathUtil.map(随机尺度, 0.0f, 1.0f, _最小尺度, _最大尺度);
         Vector3 随机尺度v3 = _原始尺度 * 随机尺度;
 
         transform.localScale = 随机尺度v3;
