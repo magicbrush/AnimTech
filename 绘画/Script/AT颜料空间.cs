@@ -16,7 +16,10 @@ public class AT颜料空间 : MonoBehaviour {
 	{
 		Transform[] 颜料们 = GetComponentsInChildren<Transform> ();
 		foreach (Transform tf in 颜料们) {
-			Destroy (tf.gameObject);
+            if(tf!=transform)
+            {
+                Destroy(tf.gameObject);
+            }
 		}
 	}
 
