@@ -90,12 +90,12 @@ public class AT摄像头控制 : MonoBehaviour {
 
     public void 开始上移()
     {
-        _正在移动速度.y = _移动速率;
+        _正在移动速度.y = -_移动速率;
     }
 
     public void 开始下移()
     {
-        _正在移动速度.y = -_移动速率;
+        _正在移动速度.y = _移动速率;
     }
 
     public void 停止移动()
