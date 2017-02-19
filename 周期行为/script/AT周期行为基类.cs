@@ -14,5 +14,11 @@ public class AT周期行为基类 : MonoBehaviour {
 		}
 	}
 
+	[ContextMenu("随机化基准时刻")]
+	public void 随机化基准时刻()
+	{
+		_基准时刻 = Random.Range (-99999.0f, 99999.0f);
+	}
+
 
 }
