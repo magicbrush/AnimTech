@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class AT摄像头控制 : MonoBehaviour {
 
@@ -103,4 +104,5 @@ public class AT摄像头控制 : MonoBehaviour {
         _正在移动速度 = Vector2.zero;
     }
 
+    
 }
