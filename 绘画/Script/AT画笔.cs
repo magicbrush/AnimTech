@@ -17,6 +17,8 @@ public class AT画笔 : MonoBehaviour {
 	private Vector2 _上一次位置 = Vector2.zero;
 	private bool _上一帧在绘制 = false;
 
+	public float _旋转量 = 0.0f;
+
 	// Use this for initialization
 	void Start () {
 		_剩余间隔 = _涂颜料间隔;
@@ -51,5 +53,14 @@ public class AT画笔 : MonoBehaviour {
 		GameObject newPaintObj = Instantiate (_颜料) as GameObject;
 		newPaintObj.transform.SetParent (_颜料空间);
 		newPaintObj.transform.position = 颜料位置;
+
+		newPaintObj.transform.Rotate (Vector3.forward, _旋转量);
 	}
+
+	public void 设置旋转量(float 旋转)
+	{
+		_旋转量 = 旋转;
+	}
+
+
 }
