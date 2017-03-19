@@ -27,6 +27,12 @@ public class AT振子运动 : MonoBehaviour {
 		
 	}
 
+	public void 重置起始时刻和位置()
+	{
+		重置起始时刻 ();
+		重置起始位置 ();
+
+	}
 	public void 重置起始时刻()
 	{
 		_起始时刻 = Time.realtimeSinceStartup;
@@ -34,6 +40,6 @@ public class AT振子运动 : MonoBehaviour {
 
 	public void 重置起始位置()
 	{
-		_起始位置 = transform.localPosition;
+		_起始位置 = Vector3.zero;
 	}
 }
