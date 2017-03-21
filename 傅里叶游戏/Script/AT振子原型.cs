@@ -17,6 +17,8 @@ public class AT振子原型 : MonoBehaviour {
 
 	public bool _bExhausting = false;
 
+	public GameObject _Brush;
+
 	// Use this for initialization
 	void Start () {
 		_LR = GetComponent<LineRenderer> ();
@@ -65,6 +67,18 @@ public class AT振子原型 : MonoBehaviour {
 	{
 		_LeftEnergy += Amt;
 	}
+
+	public void ActivateBrush()
+	{
+		_Brush.SetActive (true);
+	}
+
+	public void DeactivateBrush()
+	{
+		_Brush.SetActive (false);
+	}
+
+
 
 	/*
 	void OnCollisionStay2D(Collision2D coll)
