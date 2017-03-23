@@ -3,14 +3,8 @@ using System.Collections;
 
 public class AT噪声尺寸XYZ : MonoBehaviour {
 	public Vector3 _速率系数 = Vector3.one;
-	public Vector3 [] _噪声速率 = new Vector3[]{
-		Random.insideUnitSphere,
-		Random.insideUnitSphere,
-		Random.insideUnitSphere};
-	public Vector3 [] _噪声起点 = new Vector3[]{
-		Random.insideUnitSphere * 100.0f,
-		Random.insideUnitSphere * 100.0f,
-		Random.insideUnitSphere * 100.0f};
+	public Vector3 [] _噪声速率 = new Vector3[3]{Vector3.one,Vector3.one,Vector3.one};
+	public Vector3 [] _噪声起点 = new Vector3[3]{Vector3.zero,Vector3.zero,Vector3.zero};
 	public Vector3 
 		_最小尺度 = 0.8f* Vector3.one,
 		_最大尺度 = 1.2f* Vector3.one;
@@ -19,9 +13,15 @@ public class AT噪声尺寸XYZ : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
 		if (_基准尺度.x == float.NegativeInfinity) {
 			以当前尺度为基准尺度 ();
 		}
+	}
+
+	public void OnValidate()
+	{
+		初始化噪声参数 ();
 	}
 
 	// Update is called once per frame
@@ -54,4 +54,19 @@ public class AT噪声尺寸XYZ : MonoBehaviour {
 			_噪声起点 [i] = Random.insideUnitSphere * 100.0f;
 		}
 	}
+
+	/*
+	[ContextMenu("初始化噪声速率和起点")]
+	public void 初始化噪声速率和起点()
+	{
+		_噪声速率 = new Vector3[]{
+			Random.insideUnitSphere,
+			Random.insideUnitSphere,
+			Random.insideUnitSphere};
+
+		_噪声起点 = new Vector3[]{
+			Random.insideUnitSphere * 100.0f,
+			Random.insideUnitSphere * 100.0f,
+			Random.insideUnitSphere * 100.0f};
+	}*/
 }
