@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshCollider))]
-public class ATStrokeRecorder : MonoBehaviour {
+public class ATTraceRecorder : MonoBehaviour {
 	public Camera _SceneCamera;
 	public int _MouseBtn = 0;
 	public float _StepMin = 0.0001f;
@@ -29,7 +29,7 @@ public class ATStrokeRecorder : MonoBehaviour {
 
 	public List<TracePoint> _Trace;
 
-	public List<ATStrokeRecorder> _SKRecs = new List<ATStrokeRecorder>();
+	public List<ATTraceRecorder> _SKRecs = new List<ATTraceRecorder>();
 
 	// Use this for initialization
 	void Start () {
@@ -173,5 +173,10 @@ public class ATStrokeRecorder : MonoBehaviour {
 			return;
 		}
 		_Trace = _SKRecs [Slot]._Trace;
+	}
+
+	public void ClearTrace()
+	{
+		_Trace.Clear ();
 	}
 }
