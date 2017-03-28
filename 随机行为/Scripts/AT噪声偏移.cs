@@ -7,20 +7,23 @@ public class AT噪声偏移 : MonoBehaviour {
 	public Vector3 _速率系数 = Vector3.one;
 	public bool _全局位置 = true;
 	private Vector3 _基准位置 = new Vector3(float.NegativeInfinity,0,0);
-	public  Vector2 [] _噪声速率 = new Vector2[]{
-		Random.insideUnitCircle,
-		Random.insideUnitCircle,
-		Random.insideUnitCircle};
+	public  Vector2 [] _噪声速率;
 	public float _偏移最大距离 = 1.0f;
 
-	public Vector2 _噪声起始点 = 
-		100.0f*Random.insideUnitCircle;
+	public Vector2 _噪声起始点;
 
 	// Use this for initialization
 	void Start () {
 		if (_基准位置.x == float.NegativeInfinity) {
 			记录当前位置为基准位置 ();
 		}
+
+		_噪声速率 = new Vector2[]{
+			Random.insideUnitCircle,
+			Random.insideUnitCircle,
+			Random.insideUnitCircle};
+		_噪声起始点 = 100.0f*Random.insideUnitCircle;
+
 	}
 	
 	// Update is called once per frame

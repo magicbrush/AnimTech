@@ -18,17 +18,25 @@ public class ATTraceRecorder : MonoBehaviour {
 	[System.Serializable]
 	public class TracePoint
 	{
-		public TracePoint(TracePointType t, Vector3 p)
+		public TracePoint(TracePointType t, Vector3 p, TracePoint PrevTP = null)
 		{
 			Type = t;
 			Pos = p;
+			if(PrevTP==null)
+			{
+				Dist = 0.0f;
+			}
+			else
+			{
+				Dist = PrevTP.Dist;
+				Dist += (Pos - PrevTP.Pos).magnitude;
+			}
 		}
 		public TracePointType Type;
 		public Vector3 Pos;
+		public float Dist;
 	}
-
-	public List<TracePoint> _Trace;
-
+	public List<TracePoint> _Trace = new List<TracePoint>();
 	public List<ATTraceRecorder> _SKRecs = new List<ATTraceRecorder>();
 
 	// Use this for initialization
@@ -46,95 +54,91 @@ public class ATTraceRecorder : MonoBehaviour {
 	void OnMouseDown()
 	{
 		bool bMouse = Input.GetMouseButton (_MouseBtn);
-		Vector3 hitUV = Vector3.zero;
-		if (HitTestUVPosition (out hitUV) && bMouse) {
-			
-			Vector3 move = hitUV - _LastPos;
-			Debug.Log ("Movement:" + 10000.0f*move.magnitude);
-			if (move.magnitude > _StepMin) {
-				_Trace.Add (new TracePoint (TracePointType.STROKE_START, hitUV));
-				Debug.Log ("OnMouseDown:" + hitUV);
-			}
+		Vector3 hitPos = Vector3.zero;
+		if (HitTestPosition (out hitPos) && bMouse) {
+			AddTracePoint (TracePointType.STROKE_START, hitPos);
+			//Debug.Log ("OnMouseDown"+ hitPos);
 		}
 	}
 
 	void OnMouseDrag()
 	{
-		Vector3 hitUV = Vector3.zero;
-		if (HitTestUVPosition (out hitUV)) {
-			
-			Vector3 move = hitUV - _LastPos;
-			Debug.Log ("Movement:" + 10000.0f*move.magnitude);
-			if (move.magnitude > _StepMin) {
-				_Trace.Add (new TracePoint (TracePointType.STROKE_POINT, hitUV));
-				_LastPos = hitUV;
-				Debug.Log ("OnMouseDrag:" + hitUV);
-			}
+		Vector3 hitPos = Vector3.zero;
+		if (HitTestPosition (out hitPos)) {
+			AddTracePoint (TracePointType.STROKE_POINT, hitPos);
+			//Debug.Log ("OnMouseDrag"+ hitPos);
 		}
 	}
 
 	void OnMouseOver()
 	{
 		bool bMouse = Input.GetMouseButton (_MouseBtn);
-		Vector3 hitUV = Vector3.zero;
-		if (HitTestUVPosition (out hitUV) && bMouse) {
-			
-			Vector3 move = hitUV - _LastPos;
-			Debug.Log ("Movement:" + 10000.0f*move.magnitude);
-			if (move.magnitude > _StepMin) {
-				_Trace.Add (new TracePoint (TracePointType.STROKE_POINT, hitUV));
-				_LastPos = hitUV;
-				Debug.Log ("OnMouseOver:" + hitUV);
-			}
+		Vector3 hitPos = Vector3.zero;
+		if (HitTestPosition (out hitPos) && bMouse) {
+			AddTracePoint (TracePointType.STROKE_POINT, hitPos);
+			//Debug.Log ("OnMouseOver"+ hitPos);
 		}
 	}
 
 	void OnMouseUp()
 	{
-		Vector3 hitUV = Vector3.zero;
-		if (HitTestUVPosition (out hitUV)) {
-			
-			Vector3 move = hitUV - _LastPos;
-			Debug.Log ("Movement:" + 10000.0f*move.magnitude);
-			if (move.magnitude > _StepMin) {
-				_Trace.Add (new TracePoint (TracePointType.STROKE_END, hitUV));
-				_LastPos = hitUV;
-				Debug.Log ("OnMouseUp:" + hitUV);
-			}
+		Vector3 hitPos = Vector3.zero;
+		if (HitTestPosition (out hitPos)) {
+			//Debug.Log ("OnMouseUp"+ hitPos);
+			AddTracePoint (TracePointType.STROKE_END, hitPos);
 		}
 	}
 
 	void OnMouseEnter()
 	{
 		bool bMouse = Input.GetMouseButton (_MouseBtn);
-		Vector3 hitUV = Vector3.zero;
-		if (HitTestUVPosition (out hitUV) && bMouse) {
-			
-			Vector3 move = hitUV - _LastPos;
-			Debug.Log ("Movement:" + 10000.0f*move.magnitude);
-			if (move.magnitude > _StepMin) {
-				_Trace.Add (new TracePoint (TracePointType.STROKE_START, hitUV));
-				_LastPos = hitUV;
-				Debug.Log ("OnMouseEnter:" + hitUV);
-			}
+		Vector3 hitPos = Vector3.zero;
+		if (HitTestPosition (out hitPos) && bMouse) {
+			//Debug.Log ("OnMouseEnter"+ hitPos);
+			AddTracePoint (TracePointType.STROKE_START, hitPos);
 		}
 	}
 
 	void OnMouseExit()
 	{
 		bool bMouse = Input.GetMouseButton (_MouseBtn);
-		Vector3 hitUV = Vector3.zero;
-		if (HitTestUVPosition (out hitUV) && bMouse) {
-			Debug.Log ("OnMouseExit:" + hitUV);
-			Vector3 move = hitUV - _LastPos;
-			if (move.magnitude > 0.00001f) {
-				_Trace.Add (new TracePoint (TracePointType.STROKE_END, hitUV));
-				_LastPos = hitUV;
-			}
+		Vector3 hitPos = Vector3.zero;
+		if (HitTestPosition (out hitPos) && bMouse) {
+			AddTracePoint (TracePointType.STROKE_END, hitPos);
+			//Debug.Log ("OnMouseExit"+ hitPos);
 		}
 	}
 
-	bool HitTestUVPosition(out Vector3 pos){
+	void AddTracePoint (TracePointType tptype, Vector3 curPos)
+	{
+		Vector3 move = curPos - _LastPos;
+		if (tptype == TracePointType.STROKE_END || 
+			tptype == TracePointType.STROKE_START) {
+
+		}
+
+		if (move.magnitude > _StepMin) {
+			AddTracePointAtPos (tptype, curPos);
+		} else {
+			if (tptype == TracePointType.STROKE_END || tptype == TracePointType.STROKE_START) {
+				curPos += _StepMin * (Vector3)Random.insideUnitCircle;
+				AddTracePointAtPos (tptype, curPos);
+			}
+		}
+		_LastPos = curPos;
+	}
+
+	void AddTracePointAtPos (TracePointType tptype, Vector3 curPos)
+	{
+		if (_Trace.Count > 0) {
+			_Trace.Add (new TracePoint (tptype, curPos, _Trace [_Trace.Count - 1]));
+		}
+		else {
+			_Trace.Add (new TracePoint (tptype, curPos, null));
+		}
+	}
+
+	bool HitTestPosition(out Vector3 pos){
 		
 		pos = new Vector3 (float.NaN, 0, 0);
 
@@ -160,7 +164,7 @@ public class ATTraceRecorder : MonoBehaviour {
 	public void Save(int Slot)
 	{
 		if (Slot >= _SKRecs.Count && Slot<0) {
-			Debug.Log ("Exceed Slot Count");
+			//Debug.Log ("Exceed Slot Count");
 			return;
 		}
 		_SKRecs [Slot]._Trace = this._Trace;
@@ -169,7 +173,7 @@ public class ATTraceRecorder : MonoBehaviour {
 	public void Load(int Slot)
 	{
 		if (Slot >= _SKRecs.Count && Slot<0) {
-			Debug.Log ("Exceed Slot Count");
+			//Debug.Log ("Exceed Slot Count");
 			return;
 		}
 		_Trace = _SKRecs [Slot]._Trace;
@@ -178,5 +182,79 @@ public class ATTraceRecorder : MonoBehaviour {
 	public void ClearTrace()
 	{
 		_Trace.Clear ();
+	}
+
+	public bool GetInterpPosAtId(int id, float dist, out Vector3 pos)
+	{
+		pos = new Vector3 (float.NegativeInfinity, 0, 0);
+		if (id >= _Trace.Count - 1 || id<0) {
+			return false;
+		}
+		//Debug.Log ("id:" + id);
+		if(_Trace [id].Dist > dist)
+		{
+			return false;
+		}
+		if(_Trace[id+1].Dist <dist)
+		{
+			return false;
+		}
+		Vector3 p0 = _Trace [id].Pos;
+		Vector3 p1 = _Trace [id + 1].Pos;
+		float t = (dist - _Trace [id].Dist) / (_Trace [id + 1].Dist - _Trace [id].Dist);
+		pos = Vector3.Lerp(p0,p1,t);
+
+		return true;
+	}
+
+	public bool GetNextIdBeforeDist(float dist, int fromId, out int nextId)
+	{
+		nextId = -1;
+		if (fromId >= _Trace.Count - 1) {
+			//Debug.Log ("fromId >= _Trace.Count - 1");
+			return false;
+		}
+
+		if (_Trace [fromId].Dist > dist) {
+			//Debug.Log ("_Trace [fromId].Dist > dist");
+			bool bJust = IsDistJustAfterId (dist,fromId);
+			return false;
+		}
+
+		int nxt = fromId;
+		while (_Trace [nxt].Dist < dist) {
+			nxt += 1;
+			//Debug.Log ("nxt:" + nxt);
+			if (nxt >= _Trace.Count - 1) {
+				//Debug.Log ("Exceed!");
+				return false;
+			}
+		}
+		nextId = nxt-1;
+		return true;
+		
+	}
+
+	public bool IsDistJustAfterId(float dist, int id)
+	{
+		if (id < 0 || id > _Trace.Count - 2) {
+			return false;
+		}
+
+		if (_Trace [id].Dist <= dist && _Trace [id + 1].Dist >= dist) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public bool DistExceedTrace(float dist)
+	{
+		if (_Trace.Count < 2) {
+			return false;
+		}
+
+		return _Trace [_Trace.Count - 1].Dist < dist;
 	}
 }
