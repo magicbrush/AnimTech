@@ -12,7 +12,9 @@ public class ATPTRun_CameraCtrl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		_OriginPos = _Cam.transform.position;
+		
+			_OriginPos = _Cam.transform.position;
+
 	}
 	
 	// Update is called once per frame
