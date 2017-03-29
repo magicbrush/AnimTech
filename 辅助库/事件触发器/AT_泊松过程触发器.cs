@@ -7,9 +7,13 @@ public class AT_泊松过程触发器 : MonoBehaviour {
 	public UnityEvent _PoissonProcessEvent;
 	public float _lamda = 1.0f;
 
-	private float _rvalue = Random.value;
+    private float _rvalue;
 	private float _passedTime = 0.0f;
 
+    void Start()
+    {
+        _rvalue = Random.value;
+    }
 	// Update is called once per frame
 	void Update () {
 		_passedTime += Time.deltaTime;

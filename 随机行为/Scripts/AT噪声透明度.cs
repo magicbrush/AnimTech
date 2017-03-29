@@ -4,14 +4,15 @@ using System.Collections;
 public class AT噪声透明度 : MonoBehaviour {
 
 	public float _速率系数 = 1.0f;
-	public Vector2 _噪声速率 = Random.insideUnitCircle;
-	public Vector2 _噪声起点 = Random.insideUnitCircle * 100.0f;
+    public Vector2 _噪声速率;
+    public Vector2 _噪声起点;
 	public float _基准值= 0.3f,_最大偏移= 0.1f;
 
 	// Use this for initialization
 	void Start () {
-	
-	}
+       _噪声速率 = Random.insideUnitCircle;
+       _噪声起点 = Random.insideUnitCircle * 100.0f;
+}
 	
 	// Update is called once per frame
 	void Update () {
