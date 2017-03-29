@@ -17,6 +17,7 @@ public class ATPT_ResetPlay : MonoBehaviour {
 		_ExistingSP.SetActive (true);
 		_Reset.Invoke ();
 	}
+
 	public ATPT_BrushSprite GetBrushSprite()
 	{
 		if (_ExistingSP == null) {
