@@ -27,4 +27,13 @@ public class ATPT_ResetPlay : MonoBehaviour {
 			_ExistingSP.GetComponentInChildren<ATPT_BrushSprite> ();
 		return brs;
 	}
+
+	public void ExertShock()
+	{
+		if (_ExistingSP == null)
+			return;
+		ATPTRun_Shock shk = 
+			_ExistingSP.GetComponentInChildren<ATPTRun_Shock> ();
+		shk.Exert ();
+	}
 }
