@@ -31,7 +31,6 @@ public class ATPTRun_CameraCtrl : MonoBehaviour {
 
 		if (float.IsNegativeInfinity (tgtPos.x)) {
 			//Debug.Log ("OtgtPos:" + tgtPos);
-			//float m = 12341234.0f;
 			_OriginPos = new Vector3 (0, 1, -16.0f);
 		}
 		if (_bFollowing) {

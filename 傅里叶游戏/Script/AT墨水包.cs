@@ -54,7 +54,7 @@ public class AT墨水包 : MonoBehaviour {
 
 		Vector3 pos = 振子.transform.position;
 		pos.z -= 8.0f;
-		AT文本信息反馈.显示文本信息 (_Energy.ToString (), pos, "Standard_Black", 1.5f, 40);
+		AT文本信息反馈.PushTextInfo (_Energy.ToString (), pos, "Standard_Black", 1.5f, 40);
 
 		Destroy (gameObject);
 	}

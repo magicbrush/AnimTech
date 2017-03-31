@@ -6,16 +6,11 @@ using UnityEngine.Events;
 
 public class AT文本信息反馈 : MonoBehaviour {
 	static private AT文本信息反馈 _信息反馈器;
-	public RectTransform _RTF=null;
+	private RectTransform _RTF=null;
+	public Dictionary<string,GameObject> _InfoPrefabs = 
+		new Dictionary<string,GameObject>();
 
-	[System.Serializable]
-	public class InfoItem
-	{
-		public string _StyleName;
-		public GameObject _Prefab;
-	}
-	public List<InfoItem> _InfoPrefabs = 
-		new List<InfoItem>();
+	public Camera _Cam;
 
 	// Use this for initialization
 	void Start () {
@@ -30,32 +25,74 @@ public class AT文本信息反馈 : MonoBehaviour {
 		}
 	}
 
-	public static void 显示文本信息(
-		string Info, 
-		Vector3 Pos, 
-		int StyleId, 
-		float Duration = 1.5f, 
-		int Size = 40)
+	[ContextMenu("PlaceInFrontCamera")]
+	public void PlaceInFrontCamera()
 	{
-		InfoItem item = _信息反馈器._InfoPrefabs [StyleId];
-		生成文本信息对象 (Info, Pos, item, Duration,Size);
+		PlaceInFrontCamera (_Cam);
 	}
 
-	public static void 显示文本信息(
-		string Info, 
-		Vector3 Pos, 
-		string StyleName, 
-		float Duration = 1.5f, 
-		int Size = 40)
+	private void PlaceInFrontCamera(Camera Cam)
 	{
-		foreach (InfoItem item in _信息反馈器._InfoPrefabs) {
-			if (item._StyleName == StyleName) {
-				生成文本信息对象 (Info, Pos, item, Duration, Size);
-				break;
-			}
+		PlaceAtCamNearClipPlane (Cam);
+
+		bool bOrtho = Cam.orthographic;
+		if (bOrtho) {
+			float orthoSize = Cam.orthographicSize;
+
+			RectTransform rt = GetComponent<RectTransform> ();
+			//float whRatio = (float)Screen.width / (float)Screen.height;
+			float CenterSquareSize = Mathf.Min ((float)Screen.width, (float)Screen.height);
+			//float centerSquareRatio = whRatio > 1.0f ? 1.0f / whRatio : whRatio;
+
+			rt.sizeDelta = new Vector2 (
+				(float)Screen.height/CenterSquareSize, 
+				(float)Screen.width/CenterSquareSize) * orthoSize * 2.0f;
+			
+		} else {
+			
 		}
 	}
 
+	private void PlaceAtCamNearClipPlane (Camera Cam)
+	{
+		RectTransform rt = GetComponent<RectTransform> ();
+		Transform parent = rt.parent;
+		rt.SetParent (_Cam.transform);
+		rt.localScale = Vector3.one;
+		rt.localRotation = Quaternion.identity;
+		rt.localPosition = new Vector3 (0, 0, Cam.nearClipPlane);
+		rt.SetParent (parent, true);
+		Debug.Log ("Parent:" + parent);
+	}
+
+	public static void PushTextInfo(
+		string InfoText, 
+		Vector3 Pos,
+		string StyleName, 
+		float XShiftInScreenPercent = 0.0f,
+		float YShiftInScreenPercent = 5.0f,
+		float Duration = 1.5f, 
+		float SizeToScreenPercent = 5)
+	{
+		
+	}
+
+	public static void PushTextInfo(
+		string InfoText, 
+		Vector3 Pos,
+		string StyleName, 
+		Color TextColor,
+		float XShiftInScreenPercent = 0.0f,
+		float YShiftInScreenPercent = 5.0f,
+		float Duration = 1.5f, 
+		float SizeToScreenPercent = 5)
+	{
+		PushTextInfo (InfoText, Pos, StyleName,
+			XShiftInScreenPercent,YShiftInScreenPercent, 
+			Duration, SizeToScreenPercent);
+	}
+
+	/*
 	static void 生成文本信息对象 (string Info, Vector3 Pos, InfoItem item, float Duration, int Size)
 	{
 		GameObject newInfoObj = Instantiate (item._Prefab) as GameObject;
@@ -78,5 +115,6 @@ public class AT文本信息反馈 : MonoBehaviour {
 		text.text = Info;
 		text.fontSize = Size;
 	}
+	*/
 
 }
