@@ -40,7 +40,7 @@ public class ATPTRun_Servant : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D other)
 	{
-		Debug.Log ("Trigger!");
+		//Debug.Log ("Trigger!");
 		if (_BrSp != null)
 			return;
 		

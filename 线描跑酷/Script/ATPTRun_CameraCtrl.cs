@@ -5,7 +5,7 @@ using UnityEngine;
 public class ATPTRun_CameraCtrl : MonoBehaviour {
 
 	public Camera _Cam;
-	private Vector3 _OriginPos;
+	public Vector3 _OriginPos = new Vector3(0.0f,0.0f,-10.0f);
 	public float _MinSize=0.2f,_NormalSize = 0.8f;
 	public float _LerpSpd = 1.0f;
 	private bool _bFollowing = false;
@@ -13,8 +13,13 @@ public class ATPTRun_CameraCtrl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-			_OriginPos = _Cam.transform.position;
+	}
 
+	[ContextMenu("TakeCamOriginPosition")]
+	public void TakeCamOriginPosition()
+	{
+		_OriginPos = _Cam.transform.position;
+		Debug.Log ("TakeOriginPos" + _OriginPos);
 	}
 	
 	// Update is called once per frame
@@ -23,10 +28,17 @@ public class ATPTRun_CameraCtrl : MonoBehaviour {
 
 		float tgtSize = _NormalSize;
 		Vector3 tgtPos = _OriginPos;
+
+		if (float.IsNegativeInfinity (tgtPos.x)) {
+			//Debug.Log ("OtgtPos:" + tgtPos);
+			//float m = 12341234.0f;
+			_OriginPos = new Vector3 (0, 1, -16.0f);
+		}
 		if (_bFollowing) {
 			tgtSize = _MinSize;
 			tgtPos = transform.position;
 			tgtPos.z = _OriginPos.z;
+			//Debug.Log ("atgtPos:" + tgtPos);
 		} 
 
 		float size = _Cam.orthographicSize;
@@ -35,10 +47,10 @@ public class ATPTRun_CameraCtrl : MonoBehaviour {
 			size, tgtSize, Mathf.Clamp01(dt * _LerpSpd));
 		pos = Vector3.Lerp (
 			pos, tgtPos, Mathf.Clamp01( dt * _LerpSpd));
-
+		//Debug.Log ("_Cam.transform.position:" + pos + " tgtPos:" + tgtPos);
 		_Cam.orthographicSize = size;
 		_Cam.transform.position = pos;
-		
+
 	}
 
 	public void TurnOnFollowing()
