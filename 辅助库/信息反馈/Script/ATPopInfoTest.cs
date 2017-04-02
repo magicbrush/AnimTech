@@ -13,7 +13,7 @@ public class ATPopInfoTest : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyUp (_Key)) {
-			AT文本信息反馈.PushTextInfo (
+			AT文本信息反馈.Instance().PushTextInfo (
 				_Info, transform.position,0,5.0f,5.0f,5.0f);
 		}
 	}
