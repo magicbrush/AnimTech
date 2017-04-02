@@ -47,7 +47,7 @@ public class ATPTRun_Block : MonoBehaviour {
 		} else {
 			_Solve.Invoke ();
 			Destroy (gameObject);
-			AT文本信息反馈.Instance().PushTextInfo (
+			PopupInformer.Instance().PushTextInfo (
 				"哈哈哈哈",
 				gameObject.transform.position, 
 				0, 5.0f, 5.0f, 5.0f);

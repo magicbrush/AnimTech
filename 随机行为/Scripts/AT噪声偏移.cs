@@ -12,6 +12,8 @@ public class AT噪声偏移 : MonoBehaviour {
 
 	public Vector2 _噪声起始点;
 
+	public bool _限定X=false,_限定Y=false, _限定Z=true;
+
 	// Use this for initialization
 	void Start () {
 		if (_基准位置.x == float.NegativeInfinity) {
@@ -19,9 +21,9 @@ public class AT噪声偏移 : MonoBehaviour {
 		}
 
 		_噪声速率 = new Vector2[]{
-			Random.insideUnitCircle,
-			Random.insideUnitCircle,
-			Random.insideUnitCircle};
+			_限定X?Vector2.zero:Random.insideUnitCircle * _速率系数.x,
+			_限定Y?Vector2.zero:Random.insideUnitCircle * _速率系数.y,
+			_限定Z?Vector2.zero:Random.insideUnitCircle * _速率系数.z};
 		_噪声起始点 = 100.0f*Random.insideUnitCircle;
 
 	}

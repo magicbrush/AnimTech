@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class AT文本信息反馈 : MonoBehaviour {
+public class PopupInformer : MonoBehaviour {
 	public Text _TxtPrefab;
 	public Camera _Cam;
 	public GameObject _Decoration;
@@ -13,7 +13,7 @@ public class AT文本信息反馈 : MonoBehaviour {
 	private Stack<GameObject> _DecoStack = new Stack<GameObject>();
 	private List<GameObject> _ExistingInfoObjs = new List<GameObject> ();
 
-	static private AT文本信息反馈 _信息反馈器;
+	static private PopupInformer _信息反馈器;
 
 
 	[System.Serializable]
@@ -29,21 +29,12 @@ public class AT文本信息反馈 : MonoBehaviour {
 		new Dictionary<string,GameObject>();
 
 	// 单例模式： 只能用 Instance()获取单例对象
-	public static AT文本信息反馈 Instance()
+	public static PopupInformer Instance()
 	{
 		if (_信息反馈器 == null) {
-			_信息反馈器 = new AT文本信息反馈 ();
+			_信息反馈器 = new PopupInformer ();
 		}
 		return _信息反馈器;
-	}
-
-	private AT文本信息反馈()
-	{
-		if (_信息反馈器 == null) {
-			_信息反馈器 = this;
-		} else {
-			Destroy (this);
-		}
 	}
 
 	// Use this for initialization
@@ -51,6 +42,12 @@ public class AT文本信息反馈 : MonoBehaviour {
 		if (_Cam == null) {
 			_Cam = Camera.main;
 		}
+
+		if (_信息反馈器 == null) {
+			_信息反馈器 = this;
+		}
+
+		AddPredefineDecosIntoDictionary ();
 	}
 
 	void Update()
@@ -135,6 +132,22 @@ public class AT文本信息反馈 : MonoBehaviour {
 		AttachDecoration (InfoObj);
 	}
 
+	public void PushTextInfo<T>(
+		T Info, 
+		Vector3 PosWorld,
+		float XShiftInScreenPercent = 0.0f,
+		float YShiftInScreenPercent = 5.0f,
+		float Duration = 1.5f, 
+		float SizeToScreenPercent = 5)
+	{
+		PushTextInfo (
+			Info.ToString (), 
+			PosWorld, 
+			XShiftInScreenPercent, 
+			YShiftInScreenPercent, 
+			Duration, 
+			SizeToScreenPercent);
+	}
 	public void PushTextInfo(
 		string InfoText, 
 		Vector3 PosWorld,
@@ -145,6 +158,21 @@ public class AT文本信息反馈 : MonoBehaviour {
 		float SizeToScreenPercent = 5)
 	{
 		PushTextInfo (InfoText, PosWorld,
+			XShiftInScreenPercent,YShiftInScreenPercent, 
+			Duration, SizeToScreenPercent);
+		SetNewInfoTextColor (TextColor);
+	}
+
+	public void PushTextInfo<T>(
+		T Info, 
+		Vector3 PosWorld,
+		Color TextColor,
+		float XShiftInScreenPercent = 0.0f,
+		float YShiftInScreenPercent = 5.0f,
+		float Duration = 1.5f, 
+		float SizeToScreenPercent = 5)
+	{
+		PushTextInfo (Info.ToString(), PosWorld,
 			XShiftInScreenPercent,YShiftInScreenPercent, 
 			Duration, SizeToScreenPercent);
 		SetNewInfoTextColor (TextColor);
@@ -168,10 +196,10 @@ public class AT文本信息反馈 : MonoBehaviour {
 	public void PushDecoration()
 	{
 		if (_Decoration != null) {
-			GameObject DecoRep = Instantiate (_Decoration) as GameObject;
-			DecoRep.transform.SetParent (_Decoration.transform.parent);
+			//GameObject DecoRep = Instantiate (_Decoration) as GameObject;
+			//DecoRep.transform.SetParent (_Decoration.transform.parent);
 			_DecoStack.Push (_Decoration);
-			Destroy (_Decoration);
+			_Decoration = null;
 		}
 	}
 
@@ -190,9 +218,10 @@ public class AT文本信息反馈 : MonoBehaviour {
 
 	private void AttachDecoration (GameObject InfoObj)
 	{
-		GameObject newDeco = Instantiate (_Decoration) as GameObject;
-		newDeco.transform.SetParent (InfoObj.transform);
+		GameObject newDeco = Instantiate (_Decoration, Vector3.zero, Quaternion.identity) as GameObject;
+		newDeco.transform.SetParent (InfoObj.transform,false);
 		newDeco.SetActive (true);
+
 	}
 
 	private void PoseText (
