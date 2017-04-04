@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AT选择笔刷类别菜单 : MonoBehaviour {
 
-	public GameObject _随机行为菜单,_周期行为菜单,_牛顿力学菜单,_其他菜单;
+	public GameObject _随机行为菜单,_周期行为菜单,_牛顿力学菜单,_粒子系统菜单,_其他菜单;
 	private List<GameObject> _菜单们 = new List<GameObject> () ;
 
 	void Start()
@@ -12,6 +12,7 @@ public class AT选择笔刷类别菜单 : MonoBehaviour {
 		_菜单们.Add (_随机行为菜单);
 		_菜单们.Add (_周期行为菜单);
 		_菜单们.Add (_牛顿力学菜单);
+		_菜单们.Add (_粒子系统菜单);
 		_菜单们.Add (_其他菜单);
 	}
 
@@ -40,6 +41,12 @@ public class AT选择笔刷类别菜单 : MonoBehaviour {
 		_牛顿力学菜单.SetActive(true);
 	}
 
+	public void 选择粒子系统()
+	{
+		禁掉所有菜单 ();
+		_粒子系统菜单.SetActive(true);
+	}
+
 	public void 选择其他()
 	{
 		禁掉所有菜单 ();
@@ -55,6 +62,8 @@ public class AT选择笔刷类别菜单 : MonoBehaviour {
 		} else if (id == 2) {
 			选择牛顿力学 ();
 		} else if (id == 3) {
+			选择粒子系统 ();
+		}else if (id == 4) {
 			选择其他 ();
 		}
 	}
