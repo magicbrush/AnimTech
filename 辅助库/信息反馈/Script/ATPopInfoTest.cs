@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Lyu
+{
 public class ATPopInfoTest : MonoBehaviour {
 	public KeyCode _Key;
 	public string _Info = "信息";
@@ -48,4 +50,5 @@ public class ATPopInfoTest : MonoBehaviour {
 
 
 
+}
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
+namespace Lyu
+{
 public class PopupInformer : MonoBehaviour {
 	public Text _TxtPrefab;
 	public Camera _Cam;
@@ -302,4 +304,6 @@ public class PopupInformer : MonoBehaviour {
 			rt.sizeDelta = new Vector2 (RectWd, RectHt);
 		}
 	}
+}
+
 }

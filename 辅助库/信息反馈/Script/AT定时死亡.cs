@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Lyu
+{
 public class AT定时死亡 : MonoBehaviour {
 
 	public float _LiftSpan = 1.0f;
@@ -20,4 +22,5 @@ public class AT定时死亡 : MonoBehaviour {
 	{
 		_LiftSpan = lifeSpan;
 	}
+}
 }
