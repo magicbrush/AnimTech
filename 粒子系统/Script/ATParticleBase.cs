@@ -15,15 +15,21 @@ public class ATParticleBase : MonoBehaviour {
 	
 	// Update is called once per frame
 	public virtual void Update () {
+		LifePassThenDie ();
+		ApplyRandomForce ();
+	}
+
+	void LifePassThenDie ()
+	{
 		_LifeSpan -= Time.deltaTime;
 		if (_LifeSpan < 0.0f) {
 			Destroy (gameObject);
 		}
+	}
 
+	void ApplyRandomForce ()
+	{
 		Rigidbody2D rb = GetComponent<Rigidbody2D> ();
-		rb.AddForceAtPosition (
-			_ForcePower * Random.insideUnitCircle, 
-			_ForceOffset * Random.insideUnitCircle);
-
+		rb.AddForceAtPosition (_ForcePower * Random.insideUnitCircle, _ForceOffset * Random.insideUnitCircle);
 	}
 }

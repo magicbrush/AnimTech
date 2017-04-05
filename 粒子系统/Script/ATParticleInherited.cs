@@ -11,9 +11,11 @@ public class ATParticleInherited : ATParticleBase {
 	
 	// Update is called once per frame
 	public override void Update () {
+		Rigidbody2D rb = GetComponent<Rigidbody2D> ();
+		//rb.velocity *= 0.99;
+
 		base.Update ();
 
-		Rigidbody2D rb = GetComponent<Rigidbody2D> ();
 		rb.AddTorque (Random.value * _TorquePower);
 	}
 }
