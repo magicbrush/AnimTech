@@ -197,18 +197,18 @@ public class ATTraceRunner : MonoBehaviour {
 
 	void SetLineRendererPositions (int cnt)
 	{
-		int traceCnt = _Recorder._Trace.Count;
-		for (int i = 0; i < cnt; i++) {
-			int id = i + _lastID;
-
-			if (id > traceCnt - 1) {
-				id = traceCnt - 1;
-			}
-			Vector3 pos = _Recorder._Trace [id].Pos;
-			pos.z += _zBias;
-			//Debug.Log ("Pos[" + i + "]:" + pos);
-			_LR.SetPosition (i, pos);
-		}
+//		int traceCnt = _Recorder._Trace.Count;
+//		for (int i = 0; i < cnt; i++) {
+//			int id = i + _lastID;
+//
+//			if (id > traceCnt - 1) {
+//				id = traceCnt - 1;
+//			}
+//			Vector3 pos = _Recorder._Trace [id].Pos;
+//			pos.z += _zBias;
+//			//Debug.Log ("Pos[" + i + "]:" + pos);
+//			_LR.SetPosition (i, pos);
+//		}
 	}
 
 }
