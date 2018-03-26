@@ -187,7 +187,7 @@ public class ATTraceRunner : MonoBehaviour {
 	public void InitLineRenderer()
 	{
 		int cnt =_LengthCount;
-		_LR.numPositions = cnt;
+		_LR.positionCount = cnt;
 		List<Vector3> Pos = new List<Vector3> ();
 		for (int i = 0; i < cnt; i++) {
 			Pos.Add (_Recorder._Trace[0].Pos);
