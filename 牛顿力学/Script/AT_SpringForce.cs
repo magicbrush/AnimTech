@@ -15,7 +15,7 @@ public class AT_SpringForce : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GetStaticLength ();
+		_StaticLength = Random.value * 2.0f * GetLength ();
 	}
 	
 	// Update is called once per frame
@@ -25,15 +25,19 @@ public class AT_SpringForce : MonoBehaviour {
 
 		Rigidbody2D rbThis = GetComponent<Rigidbody2D> ();
 		rbThis.AddForce (-force);
-
 	}
 
-	void GetStaticLength ()
+	public float GetLength ()
 	{
 		Vector3 PosThis = transform.position;
 		Vector3 PosOther = _Other.transform.position;
 		Vector3 ThisToOther = PosOther - PosThis;
-		_StaticLength = ThisToOther.magnitude;
+		return ThisToOther.magnitude;
+	}
+
+	public float GetStaticLength()
+	{
+		return _StaticLength;
 	}
 
 	Vector2 GetSpringForce()
