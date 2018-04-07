@@ -8,12 +8,16 @@ public class EventTimePassed : MonoBehaviour {
 	public float _LeftTime = 0.5f;
 	public UnityEvent _Happen;
 
+	public bool _DisableOnInvoke = true;
+
 	// Update is called once per frame
 	void Update () {
 		_LeftTime -= Time.deltaTime;
 		if (_LeftTime <= 0.0f) {
+			if (_DisableOnInvoke) {
+				enabled = false;
+			}
 			_Happen.Invoke ();
-			enabled = false;
 		}
 	}
 
@@ -27,5 +31,11 @@ public class EventTimePassed : MonoBehaviour {
 			_LeftTime = leftTime;
 		}
 
+	}
+
+	public void SetLeftTimeEnable(float leftTime)
+	{
+		SetLeftTime (leftTime);
+		enabled = true;
 	}
 }
