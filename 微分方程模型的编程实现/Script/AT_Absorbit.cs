@@ -53,7 +53,16 @@ public class AT_Absorbit : MonoBehaviour {
 	// ---------------- start/update ----------------------//
 	// Use this for initialization
 	void Start () {
-		
+
+		//Mathf.Atan
+		//Mathf.Atan2 (5, 3);
+
+		//Quaternion.AngleAxis(
+		//float degrees = 90;
+		//Mathf.Sin (degrees * Mathf.Deg2Rad);
+
+		//Mathf.Rad2Deg * 3;
+		//90 * Mathf.Deg2Rad;
 	}
 	
 	// Update is called once per frame
@@ -81,7 +90,34 @@ public class AT_Absorbit : MonoBehaviour {
 		float dist = offset.magnitude * _DistanceMultiplier;
 
 		// 计算吸收速率
-		float absorbSpd = _a * _Rho / (0.01f + Mathf.Pow (dist, _b * _Rho));
+		float absorbSpd = 
+			_a * _Rho/ (0.01f + Mathf.Pow (dist, _b * _Rho));
+
+		// 算出量的变化
+		float dC = absorbSpd * dt;
+		float COther = other.GetC ();
+		dC = Mathf.Clamp( Mathf.Min (dC, COther),0.0f,float.PositiveInfinity);
+
+		// 减少对方的量
+		float COther2 = COther - dC;
+		other.SetC (COther2);
+
+		// 增加自己的量
+		_C += dC;
+
+	}
+
+	void AbsorbFromOther2(AT_Absorbit other, float dt)
+	{
+		// 计算距离
+		Vector3 posThis = transform.position;
+		Vector3 posOther = other.transform.position;
+		Vector3 offset = posOther - posThis;
+		float dist = offset.magnitude * _DistanceMultiplier;
+
+		// 计算吸收速率
+		float absorbSpd = 
+			_a * _C *_Rho / (0.01f + Mathf.Pow (dist, _b * _Rho));
 
 		// 算出量的变化
 		float dC = absorbSpd * dt;
