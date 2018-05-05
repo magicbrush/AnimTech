@@ -7,9 +7,14 @@ public class AT_MovingInDir : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		//_Velocity = Random.insideUnitSphere;
 	}
-	
+
+	public void SetVelocity(Vector3 vel)
+	{
+		_Velocity = vel;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		Vector3 movement = _Velocity * Time.deltaTime;
